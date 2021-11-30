@@ -51,7 +51,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("all") // 允许授权的范围  我们对资源操作的作用域 读 写
                 .autoApprove(false) // false的话 请求到来的时候会跳转到授权页面
                 // eg: https://www.baidu.com/?code=zZ8Qzq
-                .redirectUris("http://www.baidu.com") // 回调的地址  授权码会作为参赛绑定在重定向的地址中
+                //.redirectUris("http://www.baidu.com") // 回调的地址  授权码会作为参赛绑定在重定向的地址中
+                .redirectUris("http://localhost:8091/login", "http://localhost:8092/login")
         ;
     }
 

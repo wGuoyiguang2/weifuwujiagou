@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,17 +29,41 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/login.html", "/css/**", "/js/**", "/images/**");
+    }
+
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                //.antMatchers("/user/p1").hasAnyAuthority("p1")
+//                //.antMatchers("/user/p2").hasAnyAuthority("p2")
+//                //.antMatchers("/login").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//        ;
+//    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                //.antMatchers("/user/p1").hasAnyAuthority("p1")
-                //.antMatchers("/user/p2").hasAnyAuthority("p2")
-                //.antMatchers("/login").permitAll()
-                .anyRequest().authenticated()
+        http.requestMatchers()
+                .antMatchers("/login")
+                .antMatchers("/oauth/authorize")
+                .and()
+                .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .formLogin()
-        ;
+                .loginPage("/login.html")
+                .loginProcessingUrl("/login")
+                .permitAll()
+                .and()
+                .csrf().disable();
     }
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

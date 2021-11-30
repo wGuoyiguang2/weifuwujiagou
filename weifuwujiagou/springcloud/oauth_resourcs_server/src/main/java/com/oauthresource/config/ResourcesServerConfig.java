@@ -32,7 +32,7 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
     @Bean
     public ResourceServerTokenServices tokenServices(){
         RemoteTokenServices services = new RemoteTokenServices();
-        // 去 Token的授权服务检查token是否合法
+        // 去 Token的授权服务检查token是否合法(ps：资源服务器和授权服务器关联)
         services.setCheckTokenEndpointUrl("http://localhost:8080/oauth/check_token");
         services.setClientId("c1");
         services.setClientSecret("secret");
