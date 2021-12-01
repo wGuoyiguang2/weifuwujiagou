@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_authorization_server/oauth_authorization_server.iml" filepath="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_authorization_server/oauth_authorization_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_client_01/oauth_client_01.iml" filepath="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_client_01/oauth_client_01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_client_02/oauth_client_02.iml" filepath="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_client_02/oauth_client_02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_resourcs_server/oauth_resourcs_server.iml" filepath="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_resourcs_server/oauth_resourcs_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/weifuwujiagou.iml" filepath="$PROJECT_DIR$/.idea/weifuwujiagou.iml" />
+    </modules>
+  </component>
+</project>
