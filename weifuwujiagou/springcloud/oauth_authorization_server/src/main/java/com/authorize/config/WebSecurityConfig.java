@@ -50,14 +50,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requestMatchers()
-                .antMatchers("/login")
+                // 对认证相关的端点放行
+                //.antMatchers("/login")
+                // /sso-login 在本服务中根本没有
+                .antMatchers("/sso-login")
                 .antMatchers("/oauth/authorize")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()
                 .formLogin()
+                // 配置一下登录页面和登录接口
+                // 这个自己页面提供的
                 .loginPage("/login.html")
-                .loginProcessingUrl("/login")
+                // 实际上 这个接口在本服务中没有，因为这个链接会被重定向 到 /oauth/authorize去获取授权码，
+                // 最后调用回调 eg http://localhost:8091/login?code=MPsHXe&state=d0cDdR
+                .loginProcessingUrl("/sso-login")
                 .permitAll()
                 .and()
                 .csrf().disable();

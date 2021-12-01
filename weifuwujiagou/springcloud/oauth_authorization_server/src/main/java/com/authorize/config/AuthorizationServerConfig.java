@@ -37,7 +37,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private AuthenticationManager authenticationManager;
 
     /**
-     * 配置客户端信息
+     * 配置客户端信息 , 为测试方便 就 不放到数据库里了
      * @param clients
      * @throws Exception
      */
@@ -49,13 +49,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .resourceIds("res1")//可以访问的资源的编号
                 .authorizedGrantTypes("authorization_code", "password","client_credentials","implicit","refresh_token") //该客户端允许的授权类型
                 .scopes("all") // 允许授权的范围  我们对资源操作的作用域 读 写
-                .autoApprove(false) // false的话 请求到来的时候会跳转到授权页面
+                //.autoApprove(false) // false的话 请求到来的时候会跳转到授权页面（手动授权）
+                .autoApprove(true) // 自动授权
                 // eg: https://www.baidu.com/?code=zZ8Qzq
                 //.redirectUris("http://www.baidu.com") // 回调的地址  授权码会作为参赛绑定在重定向的地址中
                 .redirectUris("http://localhost:8091/login", "http://localhost:8092/login")
         ;
     }
 
+
+
+    /**
+     *这里用来配置令牌的访问端点和令牌服务
+     *
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager) // 管理认证管理器
@@ -64,8 +71,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .allowedTokenEndpointRequestMethods(HttpMethod.POST,HttpMethod.GET);
     }
 
+
+
+
+
+
+    /**
+     * AuthorizationServerSecurityConfigurer 用来配置令牌端点的安全约束，也就是这个端点谁能访问，谁不能访问
+     *
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+
+        //checkTokenAccess 是指一个 Token 校验的端点，这个端点我们设置为可以直接访问
+        // （在后面，当资源服务器收到 Token 之后，需要去校验 Token 的合法性，就会访问这个端点）
         security.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("permitAll()")
                 .allowFormAuthenticationForClients()
@@ -82,7 +101,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         services.setClientDetailsService(clientDetailsService); // 客户端的配置信息
         services.setSupportRefreshToken(true); // 支持刷新token
         services.setTokenStore(tokenStore); // 关联存储方式
-        services.setAccessTokenValiditySeconds(7200); // 令牌默认的有效期2小时
+        services.setAccessTokenValiditySeconds(7200); // 令牌默认的有效期2小时(授权码code 是一次性的)
         services.setRefreshTokenValiditySeconds(259200); // 刷新令牌默认的有效期3天
         return services;
     }

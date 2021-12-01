@@ -14,4 +14,14 @@ public class UserController {
         return principal;
     }
 
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello";
+    }
+    @GetMapping("/admin/hello")
+    public String admin() {
+        return "admin";
+    }
+
 }

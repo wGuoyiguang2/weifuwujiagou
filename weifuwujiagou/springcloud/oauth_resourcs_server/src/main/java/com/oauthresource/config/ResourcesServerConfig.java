@@ -26,8 +26,12 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     /**
+     *
      * 远程验证Token信息的服务
-     * @return
+     *
+     * 因为资源服务器和授权服务器是分开的 所以需要配置了一个 RemoteTokenServices 的实例，
+     * 当用户来资源服务器请求资源时，会携带上一个 access_token，通过这里的配置，就能够校验出 token 是否正确等
+     *
      */
     @Bean
     public ResourceServerTokenServices tokenServices(){
@@ -47,7 +51,9 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").access("#oauth2.hasScope('all')")
+                // 配置一下资源的拦截规则(Spring Security 中的基本写法)
+                //.antMatchers("/**").access("#oauth2.hasScope('all')")
+                .antMatchers("/admin/**").hasRole("admin")
                 .anyRequest().permitAll()
                 .and().csrf().disable()
                 // 设置Session为无状态服务 提升效率
