@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_authorization_server/pom.xml" />
         <option value="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_client_01/pom.xml" />
         <option value="$PROJECT_DIR$/weifuwujiagou/springcloud/oauth_client_02/pom.xml" />
+        <option value="$PROJECT_DIR$/weifuwujiagou/springcloud/pay-service/pom.xml" />
       </list>
     </option>
   </component>
