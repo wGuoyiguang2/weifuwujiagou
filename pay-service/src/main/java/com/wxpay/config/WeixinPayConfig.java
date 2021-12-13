@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 @Component
-public abstract class WeixinPayConfig extends WXPayConfig {
+public  class WeixinPayConfig extends WXPayConfig {
 
     //微信支付信息
     @Value("${payconfig.weixin.appId}")
@@ -85,5 +85,31 @@ public abstract class WeixinPayConfig extends WXPayConfig {
             }
         };
         return iwxPayDomain;
+    }
+
+
+    public int getHttpConnectTimeoutMs() {
+        return 6000;
+    }
+
+    public int getHttpReadTimeoutMs() {
+        return 8000;
+    }
+
+
+    public boolean shouldAutoReport() {
+        return true;
+    }
+
+    public int getReportWorkerNum() {
+        return 6;
+    }
+
+    public int getReportQueueMaxSize() {
+        return 10000;
+    }
+
+    public int getReportBatchSize() {
+        return 10;
     }
 }

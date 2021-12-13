@@ -34,8 +34,8 @@ import java.util.Map;
 @CrossOrigin
 public class WeixinPayController {
 
-    @Autowired
-    private RocketMQTemplate rocketMQTemplate;
+//    @Autowired
+//    private RocketMQTemplate rocketMQTemplate;
 
     @Autowired
     private WeixinPayService weixinPayService;
@@ -118,7 +118,7 @@ public class WeixinPayController {
         //发消息
         //成功： (主要 是往支付记录里添加  日志 ，支付记录id为 订单id；订单状态变更)
         //失败：修改订单状态，库存回滚
-        TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction("rocket", "log", message, null);
+        //TransactionSendResult transactionSendResult = rocketMQTemplate.sendMessageInTransaction("rocket", "log", message, null);
 
         //Map 响应数据（ps：给 微信系统 返回 xml 格式的字符串）
         Map<String,String> resultResp = new HashMap<String,String>();

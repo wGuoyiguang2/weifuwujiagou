@@ -6,6 +6,7 @@ import com.github.wxpay.sdk.WXPay;
 import com.wxpay.entity.PayLog;
 import com.wxpay.mapper.PayLogMapper;
 import com.wxpay.service.WeixinPayService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
@@ -15,10 +16,10 @@ import java.util.Map;
 @Service
 public class WeixinPayServiceImpl implements WeixinPayService {
 
-    @Resource
+    @Autowired
     private WXPay wxPay;
 
-    @Resource
+    @Autowired
     private PayLogMapper payLogMapper;
 
     /****
