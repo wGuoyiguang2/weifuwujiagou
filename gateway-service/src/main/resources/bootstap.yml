@@ -1,0 +1,51 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    # 应用名称
+    name: gateway-service
+
+    main:
+      allow-bean-definition-overriding: true
+
+  profiles:
+    # 当前环境对应的 profile  name-active 为读取的配置文件
+    active: develop
+  cloud:
+    nacos:
+
+      discovery:
+        server-addr: localhost:8848
+        #此处的namespace是discovery服务对应的命名空间，与config不同
+        #namespace: b7d26021-28b5-42d1-b36d-737a818a2146
+
+      config:
+        # 如果不想使用 Nacos 进行配置管理，设置为 false 即可
+        enabled: true
+        # Nacos Server 地址
+        server-addr: 127.0.0.1:8848
+        # 组，默认为 DEFAULT_GROUP
+        group: DEFAULT_GROUP
+        # 配置内容的数据格式，默认为 properties
+        file-extension: yaml
+        # 指定命名空间，默认为public
+        namespace: dev_space
+
+
+    gateway:
+      discovery:
+        locator:
+          #表示将请求路径的服务名配置改成小写  因为服务注册的时候，向注册中心注册时将服务名转成大写的了
+          lowerCaseServiceId: true
+          #表示gateway开启服务注册和发现功能,
+          #并且spring cloud gateway自动根据服务发现为每一个服务创建了一个router，这个router将以服务名开头的请求路径转发到对应的服务
+          enabled: true
+      httpclient:
+        response-timeout: 5000
+        connect-timeout: 5000
+
+
+ribbon:
+  ReadTimeout: 120000
+  ConnectTimeout: 120000
