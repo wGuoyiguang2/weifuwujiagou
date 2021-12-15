@@ -14,7 +14,6 @@ spring:
     active: develop
   cloud:
     nacos:
-
       discovery:
         server-addr: localhost:8848
         #此处的namespace是discovery服务对应的命名空间，与config不同
@@ -31,7 +30,10 @@ spring:
         file-extension: yaml
         # 指定命名空间，默认为public
         namespace: dev_space
-
+    # 将网关也 注册到nacos 上
+    service-registry:
+        auto-registration:
+         enabled: true
 
     gateway:
       discovery:
@@ -49,3 +51,8 @@ spring:
 ribbon:
   ReadTimeout: 120000
   ConnectTimeout: 120000
+
+
+
+
+
