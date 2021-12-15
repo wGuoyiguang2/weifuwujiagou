@@ -102,9 +102,41 @@
 
 
 
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+
+
 
     </dependencies>
 
+
+
+    <!--SpringBoot 整合Spring Cloud Alibaba要先整合Spring Cloud，因为Spring Cloud Alibaba属于Spring Cloud的子项目，
+         在Spring Cloud中对Spring Cloud Alibaba子项目指定了版本，并做了整合-->
+
+    <dependencyManagement>
+        <!--SpringBoot整合Spring Cloud-->
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--SpringBoot整合Spring Cloud Alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.1.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 
