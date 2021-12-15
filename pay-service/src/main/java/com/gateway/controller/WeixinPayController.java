@@ -28,7 +28,7 @@ import java.util.Map;
  * @Description:
  ****/
 @RestController
-@RequestMapping(value = "/wx")
+@RequestMapping(value = "/pay-service/wx")
 @CrossOrigin
 public class WeixinPayController {
 
@@ -44,6 +44,12 @@ public class WeixinPayController {
     //秘钥->MD5（skey）
     @Value("${payconfig.weixin.key}")
     private String skey;
+
+
+    @GetMapping(value = "/hello")
+    public RespResult<Map> pay() throws Exception {
+        return RespResult.ok("hello!I am weixinpay service!!");
+    }
 
 
     /****
