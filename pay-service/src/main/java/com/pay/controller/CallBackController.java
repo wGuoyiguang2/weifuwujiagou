@@ -9,8 +9,8 @@ import java.util.Map;
  * @Author:
  * @Description:
  ****/
-@Controller
-@RequestMapping("pay-service/callBack")
+@RestController
+@RequestMapping("/pay-service/callBack")
 public class CallBackController {
 
 
@@ -20,13 +20,17 @@ public class CallBackController {
         return "aa";
     }
 
-    @RequestMapping(value = "updateOrderStatus")
-    public RespResult<Map> updateOrderStatus(String orderNo,Integer retryTimes) throws Exception {
-        System.out.println("收到回调 ，订单号为 "+orderNo);
-        if (retryTimes <= 5){
-            return RespResult.error("订单数据修改失败!");
+    @GetMapping(value = "/updateOrderStatus")
+    public String updateOrderStatus(String orderNo,Integer retryTimes) throws Exception {
+        System.out.println("收到回调 ，订单号为 "+orderNo+"retryTimes 为"+retryTimes);
+        if  (null != retryTimes){
+            if (retryTimes <= 5){
+                return "订单数据修改失败!";
+            }
+        }else{
+            return "订单数据修改失败!" ;
         }
-        return RespResult.ok("订单数据修改成功!");
+        return  "订单数据修改成功!" ;
     }
 
 
