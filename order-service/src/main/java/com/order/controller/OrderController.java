@@ -37,7 +37,7 @@ public class OrderController {
     @RequestMapping(value = "/contractService")
     public String contractService(String orderNo) throws Exception {
 
-        String url  =  "http://" +  "localhost:" + 8093 + "/updateOrderStatus";
+        String url  =  "http://" +  "localhost:" + 8094 + "/pay-service/callBack/updateOrderStatus";
         contractService.sendContractRetry(url,orderNo);
         return "contractService retry test!";
     }

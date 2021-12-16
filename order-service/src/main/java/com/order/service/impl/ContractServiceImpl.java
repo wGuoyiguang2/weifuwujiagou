@@ -1,5 +1,6 @@
 package com.order.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.Retryer;
 import com.order.service.ContractService;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -47,7 +49,17 @@ public class ContractServiceImpl implements ContractService {
         //        try {
         //            return future.get(timeoutDuration, timeoutUnit);
 
-        Boolean result = incrementingRetryer.call(callable);
+        Boolean result = null;
+        // 手动 try catch 防止 重试异常
+        try {
+            result = incrementingRetryer.call(callable);
+        } catch (ExecutionException e) {
+            log.error("发送合同重试异常，异常原因{}",e.getMessage());
+            return false ;
+        } catch (RetryException e) {
+            log.error("发送合同重试异常，异常原因{}",e.getMessage());
+            return false ;
+        }
         return result;
 
     }
@@ -59,13 +71,22 @@ public class ContractServiceImpl implements ContractService {
      * @return
      */
     public Boolean sendContract(String url, String orderNo,Integer retryTimes) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("orderNo", orderNo);
-        map.put("retryTimes", retryTimes);
 
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class, map);
+        ResponseEntity<String> responseEntity = null;
+        try {
+
+           // retryTimes":6,"orderNo":"VIP20211215000001"
+            // 外部系统一般都要 try catch
+            url= url+"?orderNo="+orderNo+"&retryTimes="+retryTimes;
+            log.info("开始调用第三方接口 入参为 {}",url );
+            responseEntity = restTemplate.getForEntity(url, String.class);
+            log.info("调用第三方接口结束 返回结果为 {}", JSON.toJSONString(responseEntity));
+        } catch (RestClientException e) {
+            log.error("连接异常，异常原因 {}",e.getMessage());
+            return false;
+        }
         log.info("调用 支付服务 返回报文  {}",responseEntity);
-        if (responseEntity.getBody().contains("操作成功")){
+        if (responseEntity.getBody().contains("订单数据修改成功")){
             return true;
         }
         return false;
