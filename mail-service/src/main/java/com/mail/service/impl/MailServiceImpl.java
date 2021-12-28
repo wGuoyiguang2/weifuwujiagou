@@ -56,7 +56,7 @@ public class MailServiceImpl implements MailService {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         // 设置utf-8或GBK编码，否则邮件会有乱码
         MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        messageHelper.setFrom("Guoyiguang2@126.com", "personal");
+        messageHelper.setFrom(mailSender.getJavaMailProperties().getProperty("from"), "personal");
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);
         messageHelper.setText(html, true);

@@ -2,6 +2,7 @@ package com.mail.config;
 
 import lombok.Data;
 import org.apache.tomcat.util.digester.DocumentProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ public class MailProperties {
     private String password;
     private String protocol = "smtp";
     // 发件人真实邮箱
+    @Value("${spring.mail.properties.from}")
     private String from;
     private Charset defaultEncoding = DEFAULT_CHARSET;
     private Map<String, String> properties = new HashMap<>();

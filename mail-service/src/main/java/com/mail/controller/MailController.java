@@ -26,17 +26,22 @@ public class MailController {
 
 
 
-    @GetMapping(value = "/hello")
-    public String mail() throws Exception {
-        return "hello!I am order-service!!";
-    }
-
-
     @PostMapping(value = "/sendMail")
     public MailVo sendMail(@RequestBody  MailVo mailVo) throws Exception {
         MailVo mailVo1 = mailService.sendMail(mailVo);
         return mailVo1;
     }
+
+
+
+    @PostMapping(value = "/sendAttachmentMail")
+    public void sendAttachmentMail(String to, String subject, String html, String filePath) throws Exception {
+        // String to, String subject, String html, String filePath
+        mailService.sendAttachmentMail( to,  subject,  html,  filePath);
+    }
+
+
+
 
 
 
