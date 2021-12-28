@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @date 2021/12/28$
  */
 @Data
-public class MailVo {
+public class MailReq {
 
     private String id;
     private String from;

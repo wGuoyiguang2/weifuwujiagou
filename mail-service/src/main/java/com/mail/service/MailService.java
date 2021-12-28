@@ -1,9 +1,6 @@
 package com.mail.service;
 
-import com.mail.entity.MailVo;
-
-import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
+import com.mail.entity.MailReq;
 
 /**
  * @author guoyiguang
@@ -19,9 +16,5 @@ public interface MailService {
      * @param
      * @return
      */
-    MailVo sendMail(MailVo mailVo);
-
-
-
-    void sendAttachmentMail(String to, String subject, String html, String filePath) throws UnsupportedEncodingException, MessagingException;
+    MailReq sendMail(MailReq mailReq);
 }

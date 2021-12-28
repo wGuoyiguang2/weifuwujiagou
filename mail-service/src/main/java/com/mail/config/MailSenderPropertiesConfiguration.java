@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 /**
- * @author guoyiguang
+ * @author guoyiguang  生成 JavaMailSenderImpl bean 交给 spring 管理
  * @description $
  * @date 2021/12/28$
  */

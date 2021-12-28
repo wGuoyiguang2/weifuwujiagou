@@ -1,10 +1,9 @@
 package com.mail.service.impl;
 
-import com.mail.entity.MailVo;
+import com.mail.entity.MailReq;
 import com.mail.service.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailParseException;
 import org.springframework.mail.MailPreparationException;
@@ -14,12 +13,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
-import javax.mail.internet.MimeMessage;
 import javax.mail.internet.ParseException;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -36,78 +31,56 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSenderImpl mailSender;
 
-    public MailVo sendMail(MailVo mailVo) {
-        try {
-            checkMail(mailVo);
-            sendMimeMail(mailVo);
-            return saveMail(mailVo);
-        } catch (Exception e) {
-            log.error("发送邮件失败:", e);
-            mailVo.setStatus("fail");
-            mailVo.setError(e.getMessage());
-            return mailVo;
-        }
+    public MailReq sendMail(MailReq mailReq) {
 
-    }
-
-    @Override
-    public void sendAttachmentMail(String to, String subject, String html, String filePath) throws UnsupportedEncodingException, MessagingException {
-
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        // 设置utf-8或GBK编码，否则邮件会有乱码
-        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-        messageHelper.setFrom(mailSender.getJavaMailProperties().getProperty("from"), "personal");
-        messageHelper.setTo(to);
-        messageHelper.setSubject(subject);
-        messageHelper.setText(html, true);
-        FileSystemResource file=new FileSystemResource(new File(filePath));
-        String fileName=filePath.substring(filePath.lastIndexOf(File.separator));
-        messageHelper.addAttachment(fileName,file);
-        mailSender.send(mimeMessage);
-
-
-    }
-
-
-    private void checkMail(MailVo mailVo) {
-        if (StringUtils.isEmpty(mailVo.getTo())) {
+        if (StringUtils.isEmpty(mailReq.getTo())) {
             throw new RuntimeException("邮件收信人不能为空");
         }
-        if (StringUtils.isEmpty(mailVo.getSubject())) {
+        if (StringUtils.isEmpty(mailReq.getSubject())) {
             throw new RuntimeException("邮件主题不能为空");
         }
-        if (StringUtils.isEmpty(mailVo.getText())) {
+        if (StringUtils.isEmpty(mailReq.getText())) {
             throw new RuntimeException("邮件内容不能为空");
         }
+        try {
+            sendMimeMail(mailReq);
+            return  mailReq ;
+        } catch (Exception e) {
+            log.error("发送邮件失败:", e);
+            mailReq.setStatus("fail");
+            mailReq.setError(e.getMessage());
+            return mailReq;
+        }
+
     }
 
 
-    private void sendMimeMail(MailVo mailVo) {
+    private void sendMimeMail(MailReq mailReq) {
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mailSender.createMimeMessage(), true);
-            mailVo.setFrom(getMailSendFrom());
-            messageHelper.setFrom(getMailSendFrom());
-            messageHelper.setTo(mailVo.getTo().split(","));
-            messageHelper.setSubject(mailVo.getSubject());
-            messageHelper.setText(mailVo.getText());
-            if (!StringUtils.isEmpty(mailVo.getCc())) {
-                messageHelper.setCc(mailVo.getCc().split(","));
+            mailReq.setFrom(mailSender.getJavaMailProperties().getProperty("from"));
+            messageHelper.setFrom(mailSender.getJavaMailProperties().getProperty("from"));
+            messageHelper.setTo(mailReq.getTo().split(","));
+            messageHelper.setSubject(mailReq.getSubject());
+            messageHelper.setText(mailReq.getText());
+            if (!StringUtils.isEmpty(mailReq.getCc())) {
+                messageHelper.setCc(mailReq.getCc().split(","));
             }
-            if (!StringUtils.isEmpty(mailVo.getBcc())) {
-                messageHelper.setCc(mailVo.getBcc().split(","));
+            if (!StringUtils.isEmpty(mailReq.getBcc())) {
+                messageHelper.setCc(mailReq.getBcc().split(","));
             }
-            if (mailVo.getMultipartFiles() != null) {
-                for (MultipartFile multipartFile : mailVo.getMultipartFiles()) {
+            if (mailReq.getMultipartFiles() != null) {
+                for (MultipartFile multipartFile : mailReq.getMultipartFiles()) {
                     messageHelper.addAttachment(multipartFile.getOriginalFilename(), multipartFile);
                 }
             }
-            if (StringUtils.isEmpty(mailVo.getSentDate())) {
-                mailVo.setSentDate(LocalDateTime.now());
+            if (StringUtils.isEmpty(mailReq.getSentDate())) {
+                mailReq.setSentDate(LocalDateTime.now());
                 messageHelper.setSentDate(new Date());
             }
             mailSender.send(messageHelper.getMimeMessage());
-            mailVo.setStatus("ok");
-            log.info("发送邮件成功：{}->{}", mailVo.getFrom(), mailVo.getTo());
+            mailReq.setStatus("ok");
+            log.info("发送邮件成功：{}->{}", mailReq.getFrom(), mailReq.getTo());
         }
         catch (MailPreparationException mse) {
             log.error("发送邮件失败 , MailPreparationException：{}"    , mse.getMessage());
@@ -139,23 +112,12 @@ public class MailServiceImpl implements MailService {
                 log.error("发送邮件失败 , ParseException：" + mse);
             }
 
-        }
-
-
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
 
-    private MailVo saveMail(MailVo mailVo) {
 
-        return mailVo;
-    }
-
-
-    public String getMailSendFrom() {
-        return mailSender.getJavaMailProperties().getProperty("from");
-    }
 
 }
