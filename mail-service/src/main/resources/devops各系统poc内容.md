@@ -2,11 +2,11 @@
 - yapi  (mogodb 可以集成 ldap 协议)
 - zentao (可以 安装 ldap 插件 )
 - jenkins （java ，可以集成 ldap 协议）
-- harbor   （ldap 集成harbor）
+
 
 - granafa   （grafana集成ldap）
 - sonarqube  （SonarQube配置LDAP认证集成）
-
+- harbor   （ldap 集成harbor）
 
 
 - kuboard
@@ -30,3 +30,7 @@
 
 
 
+
+
+
+- the third

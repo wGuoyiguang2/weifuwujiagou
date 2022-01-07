@@ -2,16 +2,43 @@ package com.third.controller;
 
 
 import com.alibaba.cloud.commons.lang.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
- * @author guoyiguang
+ * @author guoyiguang   mian  MI
  * @description $
  * @date 2021/12/29$
  */
@@ -19,6 +46,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/third")
 public class ThirdLoginController {
+
+
+    @Autowired
+    RestTemplate restTemplate ;
 
 
     /**
@@ -56,7 +87,61 @@ public class ThirdLoginController {
                 res.addCookie(cookie1);
 
                 res.sendRedirect("http://192.168.5.213:31010/group/403");
+            }else if (system.equals("jenkins")){
+                // get cookie  url
+                // post  j_username=guoyiguang6&j_password=123456&from=%2F&Submit=%E7%99%BB%E5%BD%95
+
+//                ResponseEntity<String> responseEntity = restTemplate.postForEntity("http://localhost:8080/j_spring_security_check", String.class);
+//                System.out.println(responseEntity.getBody());
+
+
+
+                Cookie cookie0 = new Cookie("JSESSIONID.b98ee2a5",tokenValue);
+                cookie0.setDomain("localhost");
+                //cookie0.setDomain("192.168.60.84");
+                cookie0.setPath("/");
+                res.addCookie(cookie0);
+
+
+                Cookie cookie1 = new Cookie("aa","aa");
+                cookie1.setDomain("localhost");
+                //cookie1.setDomain("192.168.60.84");
+                cookie1.setPath("/");
+                res.addCookie(cookie1);
+
+
+
+                // url de dizhi buyiding shi houtai
+                // cookie shezhi chneggonghou  url de houtai  qingqiu jiu hui zai request header  xianshi
+                // denglu de shihou  zhiyou j shengxiao
+               res.sendRedirect("http://localhost:8080/asynchPeople/");
+
+
+
+
+            }else if (system.equals("sonarqube")){
+
+
+                Cookie cookie0 = new Cookie("JWT-SESSION",tokenValue);
+                cookie0.setDomain("localhost");
+                //cookie0.setDomain("192.168.60.84");
+                cookie0.setPath("/");
+                res.addCookie(cookie0);
+
+
+                Cookie cookie1 = new Cookie("sonarqube","sonarqube");
+                cookie1.setDomain("localhost");
+                //cookie1.setDomain("192.168.60.84");
+                cookie1.setPath("/");
+                res.addCookie(cookie1);
+
+
+
+                res.sendRedirect("http://localhost:9000/projects/");
+
             }
+
+
 
             return  "hh";
 
