@@ -1,6 +1,7 @@
 package com.pay.api;
 
 
+import com.netflix.client.ClientException;
 import com.pay.config.FeignConfig;
 import com.pay.feignFailback.OrderFeignFailback;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -26,4 +27,18 @@ public interface OrderFeignApi {
      **/
     @RequestMapping(value = "/order/updateOrderStatus")
     String updateOrderStatus(@RequestParam("orderNo") String orderNo, @RequestParam("status") String status);
+
+
+
+    /**
+     * jia  @RequestParam de  yuanyin :Method has too many Body parameters
+     *
+     *  update order status
+     **/
+    @RequestMapping(value = "/order/updateOrderById")
+    Integer updateOrderById(@RequestParam("id") String id, @RequestParam("status") Integer status) ;
+
+
+
+
 }

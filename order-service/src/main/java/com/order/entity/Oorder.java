@@ -1,9 +1,10 @@
-package com.pay.entity;
+package com.order.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
 /*****
@@ -13,12 +14,12 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("pay_log")
-public class PayLog {
+@TableName("o_order")
+public class Oorder {
 
     private String id;
     private Integer status;
     private String content;
-    private String payId;
+    private String description;
     private Date createTime;
 }

@@ -18,4 +18,12 @@ public class OrderFeignFailback implements OrderFeignApi {
         log.error("diao yong  order-service  failed!!");
         return null;
     }
+
+    @Override
+    public Integer updateOrderById(String id, Integer status) {
+        log.error(" method updateOrderById diao yong  order-service  failed!!");
+        return null;
+    }
+
+
 }

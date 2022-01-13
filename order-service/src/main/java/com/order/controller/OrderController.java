@@ -2,7 +2,10 @@ package com.order.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.order.entity.Oorder;
+import com.order.mapper.OrderMapper;
 import com.order.service.ContractService;
+import com.order.service.OrderService;
 import com.order.utils.WebUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -27,6 +31,13 @@ public class OrderController {
 
     @Autowired
     private ContractService contractService;
+
+
+
+    @Autowired
+    private OrderService orderService;
+
+
 
     @GetMapping(value = "/hello")
     public String pay() throws Exception {
@@ -80,6 +91,32 @@ public class OrderController {
 
         return " call updateOrderStatus success !";
     }
+
+
+
+
+    /**
+     *
+     *  localhost:8092/order/contractService?orderNo=VIP20211215000001
+     **/
+    @RequestMapping(value = "/getAllOrders")
+    public List<Oorder> getAllOrders() throws Exception {
+
+        //List<Oorder> orderList = orderMapper.selectList(null);
+
+        return null;
+    }
+
+
+    @RequestMapping(value = "/updateOrderById")
+    public Integer updateOrderById(String id,Integer status) throws Exception {
+
+        return orderService.updateOrderById(id,status);
+    }
+
+
+
+
 
 
 

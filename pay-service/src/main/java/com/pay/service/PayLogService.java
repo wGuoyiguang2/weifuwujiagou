@@ -1,14 +1,20 @@
 package com.pay.service;
 
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.pay.entity.PayLog;
 
 /*****
  * @Author:
- * @Description:
+ * @Description: extends IService<PayLog>
  ****/
-public interface PayLogService extends IService<PayLog> {
+public interface PayLogService  {
 
     void add(PayLog payLog);
+
+    String  updateOrderInfoAfterPay(String orderId,Integer status);
+
+
+
+
 }

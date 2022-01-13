@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author guoyiguang
@@ -32,4 +33,22 @@ public class OrderServiceImpl implements OrderService {
         }
         return StringUtils.EMPTY;
     }
+
+
+    @Override
+    public Integer updateOrderById(String id, Integer status) {
+
+        try {
+            log.info("to  call order-service ' updateOrderStatus params : orderId {} ,status {}",id,status);
+            Integer result = orderFeignApi.updateOrderById(id, status);
+            log.info("  called order-service ' updateOrderById result :  {} ",result);
+            return result;
+        } catch (Exception e) {
+            log.error("call order-service ' updateOrderById failed, cause : {}",e.getMessage());
+        }
+        // 返回 0 代表失败
+        return 0;
+
+
+    };
 }

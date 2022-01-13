@@ -1,9 +1,10 @@
 package com.pay.controller;
 
-import com.pay.common.RespResult;
-import org.springframework.stereotype.Controller;
+
+import com.pay.service.PayLogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
+
 
 /*****
  * @Author:
@@ -12,6 +13,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/pay-service/callBack")
 public class CallBackController {
+
+    @Autowired
+    PayLogService payLogService ;
 
 
     @RequestMapping(value = "/aa")
@@ -31,6 +35,13 @@ public class CallBackController {
             return "订单数据修改失败!" ;
         }
         return  "订单数据修改成功!" ;
+    }
+
+
+
+    @GetMapping(value = "/notifyAfterPay")
+    public String notifyAfterPay(String orderId,Integer status) throws Exception {
+      return payLogService.updateOrderInfoAfterPay(orderId,status);
     }
 
 

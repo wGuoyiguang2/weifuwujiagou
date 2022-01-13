@@ -1,7 +1,7 @@
-package com.pay.mapper;
+package com.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pay.entity.PayLog;
+import com.order.entity.Oorder;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * @Author:
  * @Description:
  ****/
-//@Mapper
-@Repository
-public interface PayLogMapper extends BaseMapper<PayLog> {
+@Mapper
+//@Repository
+public interface OrderMapper extends BaseMapper<Oorder> {
 }

@@ -1,5 +1,7 @@
 package com.pay.service;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public interface OrderService {
 
 
@@ -11,4 +13,7 @@ public interface OrderService {
      * @return
      */
      String updateOrderStatus(String orderNo,String status);
+
+
+    Integer updateOrderById(String id,Integer status) ;
 }

@@ -6,7 +6,8 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
 <!--        <version>2.4.2</version>-->
-        <version>2.2.9.RELEASE</version>
+<!--        <version>2.2.9.RELEASE</version>-->
+        <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.authresourcs</groupId>
@@ -35,19 +36,15 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <!-- SpringBoot 2.2.x 以上版本这样配置 -->
-                <version>${spring-cloud.version}</version>
-<!--                <version>Hoxton.SR8</version>-->
-<!--                <version>2.2.6.RELEASE</version>-->
-<!--                <version>Spring Cloud 2020.0.1</version>-->
+<!--                <version>${spring-cloud.version}</version>-->
+                <version>Hoxton.SR9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-<!--                <version>${spring-cloud-alibaba.version}</version>-->
-<!--                <version>2.2.3.RELEASE</version>-->
-                <version>2.2.7.RELEASE</version>
+                <version>2.2.6.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -93,25 +90,48 @@
 <!--        </dependency>-->
 
 
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.18</version>
+        </dependency>
+        <!--导入mybatisplus的依赖不需要导入了mybatis的依赖-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+            <version>3.2.0</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
             <exclusions>
                 <exclusion>
-                    <artifactId>jsr305</artifactId>
-                    <groupId>com.google.code.findbugs</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>HdrHistogram</artifactId>
-                    <groupId>org.hdrhistogram</groupId>
+                    <artifactId>fastjson</artifactId>
+                    <groupId>com.alibaba</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>guava</artifactId>
                     <groupId>com.google.guava</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -131,6 +151,15 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.51</version>
+        </dependency>
+
+
+
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+            <version>2.1.3.RELEASE</version>
         </dependency>
 
 
