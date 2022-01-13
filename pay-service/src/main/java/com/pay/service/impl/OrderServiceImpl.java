@@ -43,12 +43,11 @@ public class OrderServiceImpl implements OrderService {
             Integer result = orderFeignApi.updateOrderById(id, status);
             log.info("  called order-service ' updateOrderById result :  {} ",result);
             return result;
-        } catch (Exception e) {
-            log.error("call order-service ' updateOrderById failed, cause : {}",e.getMessage());
-        }
-        // 返回 0 代表失败
-        return 0;
-
+         } catch (Exception e) {
+           log.error("call order-service ' updateOrderById failed, cause : {}",e.getMessage());
+           // 抛异常的目的是防止吃掉异常
+           throw new RuntimeException("修改订单状态异常");
+         }
 
     };
 }

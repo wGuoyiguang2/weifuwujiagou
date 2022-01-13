@@ -44,8 +44,8 @@ public class PayLogServiceImpl extends ServiceImpl<PayLogMapper, PayLog> impleme
 
 
     @Override
-    //@GlobalTransactional
-    @Transactional
+    @GlobalTransactional(name = "updateOrderInfoAfterPay",rollbackFor = Exception.class)
+    //@Transactional
     public String updateOrderInfoAfterPay(String orderId,Integer status) {
 
         //删除

@@ -24,8 +24,8 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-    @GlobalTransactional
-    @Transactional
+    @GlobalTransactional(name = "updateOrderInfoAfterPay",rollbackFor = Exception.class)
+    //@Transactional
     @Override
   public Integer updateOrderById(String id, Integer status) {
 
